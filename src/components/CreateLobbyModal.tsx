@@ -21,11 +21,7 @@ const BLIND_PRESETS: BlindPreset[] = [
   { label: 'Custom',    sb: 0,   bb: 0,   buyIn: 0     },
 ];
 
-const GAME_TYPES = [
-  { id: 'nlh',  label: "No Limit Hold'em", desc: 'Most popular variant' },
-  { id: 'plo',  label: 'Pot Limit Omaha',  desc: 'Action-heavy variant' },
-  { id: 'flh',  label: "Fixed Limit Hold'em", desc: 'Classic structured' },
-];
+
 
 interface Props {
   open:     boolean;
@@ -39,6 +35,11 @@ interface Props {
 
 export function CreateLobbyModal({ open, onClose, onCreate, hostName }: Props) {
   const { t } = useLocaleCtx();
+  const GAME_TYPES = [
+    { id: 'nlh', label: t('gtype_nlh_label'), desc: t('gtype_nlh_desc') },
+    { id: 'plo', label: t('gtype_plo_label'), desc: t('gtype_plo_desc') },
+    { id: 'flh', label: t('gtype_flh_label'), desc: t('gtype_flh_desc') },
+  ];
   const [step,        setStep]     = useState(0);
   const [gameType,    setGameType] = useState('nlh');
   const [name,        setName]     = useState('');

@@ -114,7 +114,7 @@ export function LeftSidebar({ currentView, onNavigate, onQuickJoin: _onQuickJoin
           ) : (
             <>
               <div className="text-[10px] uppercase tracking-wider mb-0.5" style={{ color: 'var(--subtle)' }}>{t('auth_not_signed_in')}</div>
-              <div className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>{t('btn_sign_in')} →</div>
+              <div className="text-sm font-semibold" style={{ color: 'var(--accent)' }}>{t('connect_wallet')}</div>
             </>
           )}
         </motion.button>
@@ -187,27 +187,28 @@ export function LeftSidebar({ currentView, onNavigate, onQuickJoin: _onQuickJoin
           </div>
         ) : (
           <>
-            <ConnectKitButton customTheme={{
-              '--ck-font-family': "'DM Sans', sans-serif",
-              '--ck-primary-button-background': 'rgba(99,102,241,0.13)',
-              '--ck-primary-button-border-radius': '10px',
-              '--ck-primary-button-color': '#6366f1',
-              '--ck-body-background': '#0a1628',
-              '--ck-body-color': '#f0f6ff',
-              '--ck-border-radius': '14px',
-            }} />
-            {/* Email/Google sign-in or logout */}
-            {isLoggedIn ? (
+            <ConnectKitButton.Custom>
+              {({ show, isConnected: ck, truncatedAddress }) => (
+                <button
+                  onClick={show}
+                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition-all hover:opacity-90"
+                  style={{
+                    background: ck ? 'rgba(61,214,140,0.10)' : 'rgba(99,102,241,0.12)',
+                    border: `1px solid ${ck ? 'rgba(61,214,140,0.28)' : 'rgba(99,102,241,0.25)'}`,
+                    color: ck ? 'var(--success)' : 'var(--accent)',
+                  }}
+                >
+                  <Wallet size={13} />
+                  {ck ? truncatedAddress : t('connect_wallet')}
+                </button>
+              )}
+            </ConnectKitButton.Custom>
+            {/* Sign out button (only when logged in) */}
+            {isLoggedIn && (
               <button onClick={onLogout}
                 className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold hover:opacity-80 transition-opacity"
                 style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.15)', color: 'var(--danger)' }}>
                 <LogOut size={12} /> {t('btn_sign_out')}
-              </button>
-            ) : (
-              <button onClick={onOpenAuth}
-                className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold hover:opacity-80 transition-opacity"
-                style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.18)', color: 'var(--accent)' }}>
-                <LogIn size={12} /> {t('btn_sign_in_email')}
               </button>
             )}
           </>

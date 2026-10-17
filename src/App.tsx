@@ -54,7 +54,7 @@ export default function App() {
   const [tourneyEliminated,   setTourneyEliminated]  = useState<{ tournament: Tournament } | null>(null);
 
   // ── Auth ────────────────────────────────────────────────────────────
-  const { isLoggedIn, userId, name: authName, method, loginEmail, loginGoogle, logout } = useAuth();
+  const { isLoggedIn, userId, name: authName, method, logout } = useAuth();
 
   // ── Profile (persisted name/avatar) ────────────────────────────────
   // Use userId as key so each account keeps its own profile
@@ -278,31 +278,12 @@ export default function App() {
             <img src="/icon512.svg" alt="ARC" style={{ width: 24, height: 24, objectFit: 'contain' }} />
             <span className="display font-bold text-sm glow-text" style={{ color: 'var(--ink)' }}>ARC Poker</span>
           </button>
-          {isLoggedIn
-            ? <button onClick={() => setDepositOpen(true)} className="btn-primary rounded-xl px-3 py-1.5 text-xs">+ Deposit</button>
-            : <button onClick={() => setAuthOpen(true)} className="btn-primary rounded-xl px-3 py-1.5 text-xs flex items-center gap-1">
-                <LogIn size={11} /> Sign In
-              </button>
-          }
+          {isLoggedIn && (
+            <button onClick={() => setDepositOpen(true)} className="btn-primary rounded-xl px-3 py-1.5 text-xs">+ Deposit</button>
+          )}
         </header>
 
-        {/* Not logged in banner */}
-        {!isLoggedIn && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-            className="mx-4 mt-4 px-4 py-3 rounded-2xl flex items-center gap-3 flex-shrink-0"
-            style={{ background: 'linear-gradient(135deg,rgba(56,182,255,0.10),rgba(14,165,233,0.06))', border: '1px solid rgba(56,182,255,0.24)' }}
-          >
-            <LogIn size={16} style={{ color: 'var(--accent)', flexShrink: 0 }} />
-            <div className="flex-1 min-w-0">
-              <div className="text-xs font-semibold" style={{ color: 'var(--ink)' }}>Sign in to play ARC Poker</div>
-              <div className="text-[11px]" style={{ color: 'var(--muted)' }}>Use your wallet, email, or Google account</div>
-            </div>
-            <button onClick={() => setAuthOpen(true)} className="btn-primary rounded-xl px-3 py-1.5 text-xs flex-shrink-0">
-              Sign In
-            </button>
-          </motion.div>
-        )}
+
 
         {/* Internal wallet banner — when logged in but no internal wallet yet */}
         {isLoggedIn && !hasInternal && method === 'wallet' && (
@@ -406,8 +387,6 @@ export default function App() {
       <AuthModal
         open={authOpen}
         onClose={() => setAuthOpen(false)}
-        onEmailLogin={loginEmail}
-        onGoogleLogin={loginGoogle}
       />
 
       {/* Create private lobby */}

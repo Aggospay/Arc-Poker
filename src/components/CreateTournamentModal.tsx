@@ -17,12 +17,7 @@ const PLAYER_PRESETS = [4, 8, 16, 32, 64, 128, 256, 500];
 const BUYIN_PRESETS  = [5, 10, 25, 50, 100, 200, 500, 1000];
 const CHIPS_PRESETS  = [1_000, 2_000, 5_000, 10_000, 25_000, 50_000];
 
-const FORMATS = [
-  { id: 'knockout',  icon: <Zap size={18} />,   label: 'Knockout (KO)',    desc: 'Bounty on every player — earn chips when you eliminate someone', color: '#f59e0b' },
-  { id: 'freezeout', icon: <Trophy size={18} />, label: 'Freezeout',        desc: 'Classic elimination — lose your chips and you\'re out',          color: '#6366f1' },
-  { id: 'rebuy',     icon: <Crown size={18} />,  label: 'Rebuy',            desc: 'Buy back in until the rebuy period ends',                        color: '#10b981' },
-  { id: 'turbo',     icon: <Timer size={18} />,  label: 'Turbo',            desc: 'Fast blind levels — quick games under 60 minutes',               color: '#e879f9' },
-];
+
 
 const LEVEL_STRUCTURES: Record<string, { label: string; duration: number }[]> = {
   standard: [
@@ -70,6 +65,12 @@ export function CreateTournamentModal({ open, onClose, onCreate, hostName }: Pro
   const tourName   = name.trim() || `${hostName}'s Tournament`;
 
   const { t } = useLocaleCtx();
+  const FORMATS = [
+    { id: 'knockout',  icon: <Zap size={18} />,   label: t('fmt_knockout_label'),  desc: t('fmt_knockout_desc'),  color: '#f59e0b' },
+    { id: 'freezeout', icon: <Trophy size={18} />, label: t('fmt_freezeout_label'), desc: t('fmt_freezeout_desc'), color: '#6366f1' },
+    { id: 'rebuy',     icon: <Crown size={18} />,  label: t('fmt_rebuy_label'),     desc: t('fmt_rebuy_desc'),     color: '#10b981' },
+    { id: 'turbo',     icon: <Timer size={18} />,  label: t('fmt_turbo_label'),     desc: t('fmt_turbo_desc'),     color: '#e879f9' },
+  ];
   const steps = [t('create_step_format'), t('create_step_players'), t('create_step_structure')];
 
   const handleCreate = () => {
@@ -154,7 +155,7 @@ export function CreateTournamentModal({ open, onClose, onCreate, hostName }: Pro
                     transition={{ duration: 0.18 }} className="space-y-5 py-4">
                     <div>
                       <label className="text-xs font-semibold uppercase tracking-widest mb-2 block" style={{ color: 'var(--muted)' }}>
-                        Tournament Format
+                        {t('create_tournament_format')}
                       </label>
                       <div className="space-y-2">
                         {FORMATS.map((f) => (
